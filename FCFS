@@ -1,0 +1,113 @@
+#include<iostream>
+using namespace std;
+class Node{
+        public:
+                int p_id;
+                int arr;
+                int comp;
+                Node* next;
+                Node(int n,int a,int c)
+                {
+                        p_id = n;
+                        arr = a;
+                        comp = c;
+                        next = NULL;
+                }
+};
+
+class FCFS{
+        public:
+                Node* ReadyQueue;
+                Node* gannt;
+                Node* temp;
+                int *arr, *burst;
+                int n;
+                void getdetails(){
+                        cout<<"Enter the number of process";
+                        cin>>n;
+                        arr = new int[n];
+                        burst = new int[n];
+                        cout<<endl<<"Enter the arrival time and burst time"<<endl;
+                        int val;
+                        for(int i=0;i<n;i++)
+                        {
+                                cout<<"PROCESS "<<i<<" "<<"ARRIVAL TIME AND BURST TIME"<<endl;
+                                cin>>arr[i];
+                                cin>>burst[i];
+                                if(i==0){
+                                        Node* n = new Node(i,arr[i],burst[i]);
+                                        //val = arr[i] + burst[i];
+                                        gannt = n;
+                                        temp = gannt;
+                                        temp = temp -> next;
+                                }
+                                else{
+                                        Node *n = new Node(i,arr[i],burst[i]);
+                                        //val = val + burst[i];
+                                        temp = gannt;
+                                        while(temp->next!=NULL){
+                                                temp = temp->next;
+                                        }
+                                        temp->next = n;
+                                }
+                        }
+                        /*temp = gannt;
+                        while(temp!=NULL)
+                        {
+                                cout<<temp->p_id;
+                                cout<<endl<<temp->arr;
+                                cout<<endl<<temp->comp<<endl;
+                                cout<<endl<<endl;
+                                temp = temp->next;
+                        }*/
+                }
+                void sort(int n){
+                        Node* temp = gannt;
+                        Node* temp2 = gannt;
+                        Node* temp3 = gannt;
+                        for(int i=0;i<n;i++){
+                                temp3 = gannt;
+                                //cout<<"Hi";
+                                for(int j=0;j<n-i-1;j++){
+                                        //cout<<temp3->arr<<"    "<<temp3->next->arr<<endl;
+                                        if(temp3->arr > temp3->next->arr){
+                                               int temp_p = temp3->p_id;
+                                               int temp_a = temp3->arr;
+                                               int temp_b = temp3->comp;
+
+                                               temp3->arr = temp3->next->arr;
+                                               temp3->comp = temp3->next->comp;
+                                               temp3->p_id = temp3->next->p_id;
+
+                                               temp3->next->arr = temp_a;
+                                               temp3->next->comp = temp_b;
+                                               temp3->next->p_id = temp_p;
+                                        }
+                                        temp3 = temp3 -> next;
+                                }
+                                temp2 = temp2 -> next;
+                        }
+                }
+                void disp()
+                {
+                        Node* temp = gannt;
+                        while(temp!=NULL)
+                        {
+                                cout<<temp->p_id;
+                                cout<<endl<<temp->arr;
+                                cout<<endl<<temp->comp<<endl;
+                                cout<<endl<<endl;
+                                temp = temp->next;
+                        }
+                }
+};
+
+
+int main()
+{
+        FCFS f;
+        f.getdetails();
+        f.sort(f.n);
+        f.disp();
+        return 0;
+}
